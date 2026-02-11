@@ -4,7 +4,6 @@
 
 {% block body %}
     <main class="container-fluid">
-        <turbo-frame id="id_category">
         {{ form_start(form) }}
         {{ form_end(form) }}
     
@@ -13,6 +12,10 @@
                 {{ message }}
             </div>
         {% endfor %}
-    </turbo-frame>
+        {% for message in app.flashes('danger') %}
+            <div class="flash-notice">
+                {{ message }}
+            </div>
+        {% endfor %}
 </main>
 {% endblock %}

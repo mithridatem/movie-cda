@@ -1,0 +1,26 @@
+{
+  "name": "video_club",
+  "version": "1.0.0",
+  "description": "projet de cours CDA movie",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mithridatem/movie-cda.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mithridatem/movie-cda/issues"
+  },
+  "homepage": "https://github.com/mithridatem/movie-cda#readme",
+  "devDependencies": {
+    "cypress": "^15.10.0"
+  }
+}

@@ -8,7 +8,7 @@
     {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstname) }}
+        {{ form_row(registrationForm.firstname, {'attr': {'data-cy':'firstname' } } ) }}
         {{ form_row(registrationForm.lastname) }}
 
         {{ form_row(registrationForm.email) }}

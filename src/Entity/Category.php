@@ -43,7 +43,7 @@ class Category
     #[AttributeGroups(["category:list", "category:item"])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, unique:true)]
     #[AttributeGroups(["category:list", "category:item"])]
     private ?string $name = null;
 
