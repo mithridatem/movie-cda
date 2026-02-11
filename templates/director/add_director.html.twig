@@ -3,16 +3,16 @@
 {% block title %}Ajout réalisateur{% endblock %}
 
 {% block body %}
-    <main class="container-fluid">
-        <turbo-frame id="id_director">
+<main class="container-fluid">
+    <turbo-frame id="id_director">
         {{ form_errors(form) }}
         {{ form_start(form) }}
         {{ form_end(form) }}
-    
-       {% for message in app.flashes('success') %}
-            <div class="flash-notice">
-                {{ message }}
-            </div>
+
+        {% for message in app.flashes('success') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
         {% endfor %}
     </turbo-frame>
-{% endblock %}
+    {% endblock %}

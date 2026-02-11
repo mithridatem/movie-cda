@@ -15,18 +15,20 @@ use Symfony\Component\Serializer\Attribute\Groups as AttributeGroups;
 #[ApiResource(
     operations: [
         new Get(
-            uriTemplate: '/category/{id}', 
+            uriTemplate: '/category/{id}',
             requirements: ['id' => '\d+'],
-            normalizationContext: ['groups' => 'category:item']),
+            normalizationContext: ['groups' => 'category:item']
+        ),
         new GetCollection(
             uriTemplate: '/category',
-            normalizationContext: ['groups' => 'category:list']),
+            normalizationContext: ['groups' => 'category:list']
+        ),
         new Post(
-            uriTemplate:'/category',
-            status:301
+            uriTemplate: '/category',
+            status: 301
         ),
         new Delete(
-            uriTemplate:'/category/{id}',
+            uriTemplate: '/category/{id}',
             requirements: ['id' => '\d+'],
         )
     ],
