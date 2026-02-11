@@ -15,12 +15,14 @@ use Symfony\Component\Serializer\Attribute\Groups as AttributeGroups;
 #[ApiResource(
     operations: [
         new Get(
-            uriTemplate: '/director/{id}', 
+            uriTemplate: '/director/{id}',
             requirements: ['id' => '\d+'],
-            normalizationContext: ['groups' => 'director:item']),
+            normalizationContext: ['groups' => 'director:item']
+        ),
         new GetCollection(
             uriTemplate: '/director',
-            normalizationContext: ['groups' => 'director:list']),
+            normalizationContext: ['groups' => 'director:list']
+        ),
     ],
     order: ['id' => 'ASC', 'firstname' => 'ASC', 'lastname' => 'ASC'],
     paginationEnabled: true
@@ -34,7 +36,7 @@ class Director
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Length(min:2, max:50,minMessage:'Le nom est trop court', maxMessage:'Le nom est trop long')]
+    #[Length(min: 2, max: 50, minMessage: 'Le nom est trop court', maxMessage: 'Le nom est trop long')]
     #[AttributeGroups(["director:list", "director:item"])]
     private ?string $firstname = null;
 
@@ -101,5 +103,10 @@ class Director
         $this->country = $country;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->firstname . " " . $this->lastname;
     }
 }
