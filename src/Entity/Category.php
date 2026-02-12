@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\GetCollection;
 use Symfony\Component\Serializer\Attribute\Groups as AttributeGroups;
+use Symfony\Component\Validator\Constraints\Length;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource(
@@ -45,6 +46,7 @@ class Category
 
     #[ORM\Column(length: 50, unique:true)]
     #[AttributeGroups(["category:list", "category:item"])]
+    #[Length(min:2, max:50, minMessage:"Le nom est trop court", maxMessage:"Le nom est trop long")]
     private ?string $name = null;
 
     public function getId(): ?int

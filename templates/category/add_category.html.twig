@@ -5,6 +5,9 @@
 {% block body %}
     <main class="container-fluid">
         {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form.save)}}
         {{ form_end(form) }}
     
        {% for message in app.flashes('success') %}
