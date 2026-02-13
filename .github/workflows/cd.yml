@@ -1,0 +1,70 @@
+name: Symfony 8 + Cypress E2E Tests
+
+on:
+    push:
+        branches: [ main, test ]
+    pull_request:
+        branches: [ main, test ]
+jobs:
+    Symfony-test:
+        runs-on: ubuntu-latest
+        # installation des services
+        services:
+            mysql:
+                image: mysql:8.0
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+                    MYSQL_DATABASE: app
+                ports:
+                    - 3306:3306
+                options: >-
+                    --health-cmd="mysqladmin ping -h localhost"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=5
+        steps:
+            # récupération du code du repository
+            - name: Checkout code
+              uses: actions/checkout@v4
+            
+            # configuration de PHP
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                php-version: "8.4"
+                extensions: mbstring, intl, pdo_mysql, sodium
+                tools: composer  
+            
+            # paramétrage de l'environnement de test
+            # création des clés privé et publique
+            - name: création des clés OpenSSL public + private
+              run: |
+                mkdir -p config/jwt
+                openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096 -pass pass:masupercle
+                openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout -passin pass:masupercle
+            # configuration du fichier .env pour les tests
+            - name: Set up .env for CI
+              run: |
+                cp .env .env.test
+                echo "APP_ENV=test" >> .env
+                echo "APP_ENV=test" >> .env.test
+                echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/app" >> .env.test
+                echo "JWT_PASSPHRASE=masupercle" >> .env.test
+
+            - name: Create test database
+              run: |
+                mysql -h 127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS app_test;"
+
+            # installation des dépendances Symfony
+            - name: Install PHP dependencies
+              run: composer install --no-interaction --prefer-dist
+            # migration de la base de données
+            - name: migration DB
+              run: |
+                php bin/console d:m:m
+            
+            # démarrage du serveur Symfony
+            - name: Run Symfony local server
+              run: |
+                php -S 127.0.0.1:8000 -t public &
+            
